@@ -1,10 +1,11 @@
 package models
 
 type ToDoGroup struct {
-	Id        string `gorm:"primaryKey;default:uuid_generate_v4()" json:"id"`
-	GroupName string `json:"group_name"`
-	Status    bool   `json:"status"`
-	OwnerId   string `json:"owner_id"`
+	Id        string     `gorm:"primaryKey;default:uuid_generate_v4()" json:"id"`
+	GroupName string     `json:"group_name"`
+	Status    bool       `json:"status"`
+	ToDoList  []ToDoList `gorm:"foreignKey:GroupId;references:id" json:"to_do_list"`
+	OwnerId   string     `json:"owner_id"`
 	IsDeleted bool
 }
 

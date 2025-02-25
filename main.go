@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/kahfi/to-do-list-app/config"
 	"github.com/kahfi/to-do-list-app/database"
+	"github.com/kahfi/to-do-list-app/routes"
 	"github.com/spf13/viper"
 )
 
@@ -14,11 +16,14 @@ func main() {
 	time.Local = loc
 
 	if err := config.SetupConfig(); err != nil {
-		// logger.Fatalf("config SetupConfig() error: %s", err)
+		fmt.Printf("config SetupConfig() error: %s", err)
 	}
-	lmsDSN, replicaDSNLms := config.DbConfiguration("prototype-lms")
+	lmsDSN, replicaDSNLms := config.DbConfiguration("postgres")
 
 	if err := database.DbConnection(lmsDSN, replicaDSNLms); err != nil {
-		// logger.Fatalf("database DbConnection error: %s", err)
+		fmt.Printf("database DbConnection error: %s", err)
 	}
+
+	router := routes.SetupRoute()
+	fmt.Printf("%v", router.Run(config.ServerConfig()))
 }
