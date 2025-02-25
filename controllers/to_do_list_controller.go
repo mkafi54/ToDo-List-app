@@ -14,7 +14,7 @@ type ToDoListController struct{}
 
 // GET DATA
 func (ctrl *ToDoListController) GetData(ctx *gin.Context) {
-	ownerId := ctx.GetHeader("Authorization")
+	ownerId := ""
 	var response []dto.ToDoListResponse
 	var toDoGroup []models.ToDoGroup
 	if err := repository.GetData(&toDoGroup, ownerId); err != nil {
