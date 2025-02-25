@@ -94,6 +94,37 @@ func (ctl *ToDoListController) CreateList(ctx *gin.Context) {
 	})
 }
 
+// CREATE GROUP
+func (ctl *ToDoListController) CreateGroup(ctx *gin.Context) {
+	var body dto.ToDoGroupPostRequest
+	if err := ctx.BindJSON(&body); err != nil {
+		webResponse := helpers.Response{
+			Code:    http.StatusBadRequest,
+			Status:  true,
+			Message: err.Error(),
+		}
+		ctx.JSON(http.StatusBadRequest, webResponse)
+		return
+	}
+	var toDoList models.ToDoGroup
+	toDoList.GroupName = body.GroupName
+	toDoList.Status = body.Status
+	toDoList.OwnerId = body.OwnerId
+	if err := repository.Save(&toDoList); err != nil {
+		ctx.JSON(http.StatusInternalServerError, helpers.Response{
+			Code:    http.StatusInternalServerError,
+			Status:  true,
+			Message: "Gagal Membuat Data",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, helpers.Response{
+		Code:    http.StatusOK,
+		Status:  true,
+		Message: "Success",
+	})
+}
+
 // UPDATE DATA
 func (ctrl *ToDoListController) UpdateData(ctx *gin.Context) {
 	var body dto.ToDoListPutRequest

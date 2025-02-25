@@ -6,6 +6,12 @@ type ToDoListPostRequest struct {
 	GroupId  string `json:"group_id"`
 	OwnerId  string `json:"owner_id"`
 }
+type ToDoGroupPostRequest struct {
+	GroupName string `json:"group_name"`
+	Status    bool   `json:"status"`
+	GroupId   string `json:"group_id"`
+	OwnerId   string `json:"owner_id"`
+}
 
 type ToDoListPutRequest struct {
 	Id       string `json:"id"`
